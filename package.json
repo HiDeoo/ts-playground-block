@@ -1,0 +1,52 @@
+{
+  "name": "ts-playground-block",
+  "version": "0.0.1",
+  "license": "MIT",
+  "description": "",
+  "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
+  "type": "module",
+  "scripts": {
+    "dev": "blocks start",
+    "lint": "prettier -c --cache . && eslint . --cache --max-warnings=0 && tsc --noEmit",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@githubnext/blocks": "2.3.5",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-error-boundary": "3.1.4",
+    "react-is": "18.2.0"
+  },
+  "devDependencies": {
+    "@hideoo/eslint-config": "1.0.0",
+    "@hideoo/prettier-config": "1.0.1",
+    "@hideoo/tsconfig": "1.0.0",
+    "@types/react": "18.0.28",
+    "@types/requirejs": "2.1.34",
+    "@typescript/sandbox": "0.1.0",
+    "eslint": "8.34.0",
+    "husky": "8.0.3",
+    "lint-staged": "13.1.1",
+    "monaco-editor": "0.35.0",
+    "prettier": "2.8.4",
+    "typescript": "4.9.5"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@7.27.0",
+  "private": true,
+  "sideEffects": false,
+  "keywords": [],
+  "homepage": "https://github.com/HiDeoo/ts-playground-block",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HiDeoo/ts-playground-block.git"
+  },
+  "bugs": "https://github.com/HiDeoo/ts-playground-block/issues",
+  "prettier": "@hideoo/prettier-config",
+  "lint-staged": {
+    "**/*": "prettier -w -u --cache",
+    "**/*.{js,jsx,ts,tsx,cjs,mjs}": "eslint --cache --max-warnings=0"
+  }
+}
