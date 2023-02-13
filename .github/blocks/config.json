@@ -1,0 +1,9 @@
+{
+  "allow": [
+    {
+      "owner": "HiDeoo",
+      "repo": "ts-playground-block",
+      "id": "ts-playground-block"
+    }
+  ]
+}
