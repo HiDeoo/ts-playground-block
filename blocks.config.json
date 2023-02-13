@@ -2,9 +2,9 @@
   {
     "type": "file",
     "id": "ts-playground-block",
-    "title": "TypeScript Playground",
-    "description": "Check out the content of a TypeScript or JavaScript file in a TypeScript Playground.",
-    "entry": "blocks/playground.tsx",
+    "title": "TS Playground",
+    "description": "Preview TypeScript or JavaScript code in a TypeScript Playground.",
+    "entry": "blocks/App.tsx",
     "matches": ["*.ts", "*.tsx", ".mts", ".cts", "*.js", "*.jsx", ".mjs", "*.cjs"]
   }
 ]
