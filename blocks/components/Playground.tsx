@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import { isLocalStorageAvailable } from '../libs/dom'
 import { getLatestTSVersion } from '../libs/typescript'
 
-export function Playground() {
+export function Playground({ content, extension }: PlaygroundProps) {
   const editor = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -50,8 +50,9 @@ export function Playground() {
                 acquireTypes: true,
                 compilerOptions: {},
                 domID: 'editor',
+                filetype: extension,
                 supportTwoslashCompilerOptions: true,
-                text: '// TODO',
+                text: content,
               },
               main,
               window.ts
@@ -69,7 +70,12 @@ export function Playground() {
       // TODO(HiDeoo)
       console.error('🚨 [Playground.tsx:19] error:', error)
     })
-  }, [])
+  }, [content, extension])
 
   return <div ref={editor} id="editor" style={{ height: 400 }} />
+}
+
+interface PlaygroundProps {
+  content: string
+  extension: 'js' | 'ts'
 }
