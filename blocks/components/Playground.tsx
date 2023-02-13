@@ -1,10 +1,12 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { isLocalStorageAvailable } from '../libs/dom'
 import { getLatestTSVersion } from '../libs/typescript'
 
 export function Playground({ content, extension }: PlaygroundProps) {
   const editor = useRef<HTMLDivElement>(null)
+
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     async function loadPlayground() {
@@ -58,6 +60,8 @@ export function Playground({ content, extension }: PlaygroundProps) {
               window.ts
             )
 
+            setIsLoading(false)
+
             // TODO(HiDeoo) setup playground
           }
         )
@@ -68,11 +72,18 @@ export function Playground({ content, extension }: PlaygroundProps) {
 
     loadPlayground().catch((error) => {
       // TODO(HiDeoo)
+      // TODO(HiDeoo) stop loading
       console.error('🚨 [Playground.tsx:19] error:', error)
     })
   }, [content, extension])
 
-  return <div ref={editor} id="editor" style={{ height: 400 }} />
+  // TODO(HiDeoo) Loading UI
+  return (
+    <>
+      {isLoading ? <div>Loading…</div> : null}
+      <div ref={editor} id="editor" style={{ height: 400 }} />
+    </>
+  )
 }
 
 interface PlaygroundProps {
