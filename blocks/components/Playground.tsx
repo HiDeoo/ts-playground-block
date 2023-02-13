@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
+import { useErrorHandler } from 'react-error-boundary'
 
 import { isLocalStorageAvailable } from '../libs/dom'
 import { getLatestTSVersion } from '../libs/typescript'
 
 export function Playground({ content, extension }: PlaygroundProps) {
   const editor = useRef<HTMLDivElement>(null)
-
+  const handleError = useErrorHandler()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -42,8 +43,8 @@ export function Playground({ content, extension }: PlaygroundProps) {
           ) => {
             // Importing `vs/language/typescript/tsWorker` will set `ts` as a global.
             if (!main || !window.ts || !sandboxFactory) {
-              // TODO(HiDeoo)
-              console.error('NOT LOADED')
+              console.error('Failed to load a Playground dependency:', { main, ts: window.ts, sandbox: sandboxFactory })
+              handleError(new Error('Failed to load the Playground, check the console for more details.'))
               return
             }
 
@@ -71,11 +72,9 @@ export function Playground({ content, extension }: PlaygroundProps) {
     }
 
     loadPlayground().catch((error) => {
-      // TODO(HiDeoo)
-      // TODO(HiDeoo) stop loading
-      console.error('🚨 [Playground.tsx:19] error:', error)
+      handleError(error)
     })
-  }, [content, extension])
+  }, [content, extension, handleError])
 
   // TODO(HiDeoo) Loading UI
   return (
