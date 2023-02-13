@@ -5,6 +5,7 @@
     "title": "TS Playground",
     "description": "Preview TypeScript or JavaScript code in a TypeScript Playground.",
     "entry": "blocks/App.tsx",
-    "matches": ["*.ts", "*.tsx", ".mts", ".cts", "*.js", "*.jsx", ".mjs", "*.cjs"]
+    "matches": ["*.ts", "*.tsx", ".mts", ".cts", "*.js", "*.jsx", ".mjs", "*.cjs"],
+    "example_path": "https://github.com/HiDeoo/ts-playground-block/blob/main/examples/README.md"
   }
 ]
