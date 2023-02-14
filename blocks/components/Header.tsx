@@ -1,8 +1,8 @@
 import { type FileBlockProps } from '@githubnext/blocks'
 import { ZapIcon } from '@primer/octicons-react'
-import Box from '@primer/react/lib-esm/Box'
-import { Button } from '@primer/react/lib-esm/Button/index'
-import Select from '@primer/react/lib-esm/Select'
+import Box from '@primer/react/lib/Box'
+import { Button } from '@primer/react/lib/Button/index'
+import Select from '@primer/react/lib/Select'
 
 import { type UseConfigReturnValue } from '../hooks/useConfig'
 import { type TSVersion } from '../libs/typescript'
