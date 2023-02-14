@@ -1,14 +1,24 @@
-import { type FileBlockProps, getLanguageFromFilename } from '@githubnext/blocks'
+import { type FileBlockProps } from '@githubnext/blocks'
+import BaseStyles from '@primer/react/lib-esm/BaseStyles'
+import { ThemeProvider } from '@primer/react/lib-esm/ThemeProvider'
 
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Playground } from './components/Playground'
 
-export default function App({ content, context, metadata }: FileBlockProps) {
-  const extension = (context.path ? getLanguageFromFilename(context.path) : 'n/a') === 'JavaScript' ? 'js' : 'ts'
-
+export default function App({ content, context, isEditable, metadata, onUpdateMetadata }: FileBlockProps) {
   return (
     <ErrorBoundary>
-      <Playground content={content} extension={extension} metadata={metadata} />
+      <ThemeProvider>
+        <BaseStyles>
+          <Playground
+            content={content}
+            isEditable={isEditable}
+            metadata={metadata}
+            path={context.path}
+            updateMetadata={onUpdateMetadata}
+          />
+        </BaseStyles>
+      </ThemeProvider>
     </ErrorBoundary>
   )
 }

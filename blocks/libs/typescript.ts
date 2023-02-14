@@ -1,16 +1,16 @@
-let tsReleases: TypeScriptReleases | undefined
+let tsReleases: TSReleases | undefined
 
-export async function getTSVersion(preference?: string) {
+export async function getTSVersion(preferredVersion?: string): Promise<TSVersion> {
   const { versions } = await getTSReleases()
 
-  if (preference && versions.includes(preference)) {
-    return preference
+  if (preferredVersion && versions.includes(preferredVersion)) {
+    return { available: versions, current: preferredVersion }
   }
 
-  const version = versions.at(-1)
+  const version = versions.at(0)
 
   if (version) {
-    return version
+    return { available: versions, current: version }
   }
 
   throw new Error('Failed to get latest TypeScript version.')
@@ -29,18 +29,23 @@ async function getTSReleases() {
       throw new Error('Failed to parse TypeScript releases.')
     }
 
-    return tsReleases
+    return {
+      versions: [...tsReleases.versions.reverse()],
+    }
   } catch (error) {
     throw new Error('Failed to fetch TypeScript releases.', { cause: error })
   }
 }
 
-function isValidTSReleases(releases: unknown): releases is TypeScriptReleases {
-  return (
-    releases !== undefined && typeof releases === 'object' && Array.isArray((releases as TypeScriptReleases).versions)
-  )
+function isValidTSReleases(releases: unknown): releases is TSReleases {
+  return releases !== undefined && typeof releases === 'object' && Array.isArray((releases as TSReleases).versions)
 }
 
-interface TypeScriptReleases {
+export interface TSVersion {
+  available: string[]
+  current: string
+}
+
+interface TSReleases {
   versions: string[]
 }

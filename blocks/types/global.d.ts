@@ -3,6 +3,10 @@ export declare global {
     ignoreDuplicateModules?: string[]
   }
 
+  interface Require {
+    reset(): void
+  }
+
   interface Window {
     require: Require
     ts: typeof import('typescript') | undefined

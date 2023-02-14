@@ -1,9 +1,11 @@
 import { type FileBlockProps } from '@githubnext/blocks'
 
-import { getTSVersion } from './typescript'
+import { getTSVersion, type TSVersion } from './typescript'
 
-export async function getConfigFromMetadata({ version }: FileBlockProps['metadata']): Promise<Config> {
-  const tsVersion = await getTSVersion(typeof version === 'string' ? version : undefined)
+export async function getConfigFromMetadata(metadata: FileBlockProps['metadata']): Promise<Config> {
+  const metadataVersion = metadata.version
+
+  const tsVersion = await getTSVersion(typeof metadataVersion === 'string' ? metadataVersion : undefined)
 
   return {
     version: tsVersion,
@@ -11,5 +13,5 @@ export async function getConfigFromMetadata({ version }: FileBlockProps['metadat
 }
 
 export interface Config {
-  version: string
+  version: TSVersion
 }

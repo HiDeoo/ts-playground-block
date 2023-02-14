@@ -5,6 +5,8 @@ specifiers:
   '@hideoo/eslint-config': 1.0.0
   '@hideoo/prettier-config': 1.0.1
   '@hideoo/tsconfig': 1.0.0
+  '@primer/octicons-react': 17.11.1
+  '@primer/react': 35.19.0
   '@types/react': 18.0.28
   '@types/requirejs': 2.1.34
   '@typescript/sandbox': 0.1.0
@@ -17,14 +19,18 @@ specifiers:
   react-dom: 18.2.0
   react-error-boundary: 3.1.4
   react-is: 18.2.0
+  styled-components: 5.3.6
   typescript: 4.9.5
 
 dependencies:
   '@githubnext/blocks': 2.3.5_cgoytsubfhzvmyyfceuxdvcxwu
+  '@primer/octicons-react': 17.11.1_react@18.2.0
+  '@primer/react': 35.19.0_2zpt4ilzykmne4yndyzrqd4gdm
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-error-boundary: 3.1.4_react@18.2.0
   react-is: 18.2.0
+  styled-components: 5.3.6_7i5myeigehqah43i5u7wbekgba
 
 devDependencies:
   '@hideoo/eslint-config': 1.0.0_7kw3g6rralp5ps6mg3uyzz6azm

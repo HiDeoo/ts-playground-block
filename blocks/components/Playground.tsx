@@ -1,95 +1,72 @@
-import { type FileBlockProps } from '@githubnext/blocks'
-import { useEffect, useRef, useState } from 'react'
-import { useErrorHandler } from 'react-error-boundary'
+import { type FileBlockProps, getLanguageFromFilename } from '@githubnext/blocks'
+import { useCallback, useState } from 'react'
 
 import { useConfig } from '../hooks/useConfig'
-import { isLocalStorageAvailable } from '../libs/dom'
 
-export function Playground({ content, extension, metadata }: PlaygroundProps) {
-  const editor = useRef<HTMLDivElement>(null)
-  const handleError = useErrorHandler()
-  const [isLoading, setIsLoading] = useState(true)
+import { Header } from './Header'
+import { Sandbox } from './Sandbox'
 
-  const config = useConfig(metadata)
+export function Playground({ content, isEditable, metadata, path, updateMetadata }: PlaygroundProps) {
+  const [isSandboxReady, setIsSandboxReady] = useState(false)
 
-  useEffect(() => {
-    if (!config || !editor.current || editor.current.childElementCount > 0) {
-      return
-    }
+  const { config, saveConfig, updateConfig } = useConfig(metadata, updateMetadata)
+  const extension = (path ? getLanguageFromFilename(path) : 'n/a') === 'JavaScript' ? 'js' : 'ts'
 
-    if (!isLocalStorageAvailable()) {
-      throw new Error('Local storage is not available in your browser and is required for the Playground to work.')
-    }
+  const onSandBoxReady = useCallback(() => {
+    setIsSandboxReady(true)
+  }, [])
 
-    const getLoaderScript = document.createElement('script')
-    getLoaderScript.src = 'https://www.typescriptlang.org/js/vs.loader.js'
-    getLoaderScript.async = true
+  const handleVersionChange = useCallback(
+    (newVersion: string) => {
+      setIsSandboxReady(false)
 
-    getLoaderScript.addEventListener('load', () => {
-      window.require.config({
-        ignoreDuplicateModules: ['vs/editor/editor.main'],
-        paths: {
-          vs: `https://typescript.azureedge.net/cdn/${config.version}/monaco/min/vs`,
-          sandbox: 'https://www.typescriptlang.org/js/sandbox',
-        },
-      })
-
-      window.require(
-        ['vs/editor/editor.main', 'vs/language/typescript/tsWorker', 'sandbox/index'],
-        (
-          main: typeof import('monaco-editor') | undefined,
-          _tsWorker: typeof import('@typescript/sandbox/dist/tsWorker').TypeScriptWorker | undefined,
-          sandboxFactory: typeof import('@typescript/sandbox') | undefined
-        ) => {
-          // Importing `vs/language/typescript/tsWorker` will set `ts` as a global.
-          if (!main || !window.ts || !sandboxFactory) {
-            console.error('Failed to load a Playground dependency:', { main, ts: window.ts, sandbox: sandboxFactory })
-            handleError(new Error('Failed to load the Playground, check the console for more details.'))
-            return
-          }
-
-          sandboxFactory.createTypeScriptSandbox(
-            {
-              acquireTypes: true,
-              compilerOptions: {},
-              domID: 'editor',
-              filetype: extension,
-              supportTwoslashCompilerOptions: true,
-              text: content,
-            },
-            main,
-            window.ts
-          )
-
-          setIsLoading(false)
-
-          // TODO(HiDeoo) setup playground
+      updateConfig((config) => {
+        if (!config) {
+          return config
         }
-      )
-    })
 
-    document.body.append(getLoaderScript)
-  }, [config, content, extension, handleError])
+        return {
+          ...config,
+          version: {
+            ...config.version,
+            current: newVersion,
+          },
+        }
+      })
+    },
+    [updateConfig]
+  )
 
-  const isReady = config !== undefined && !isLoading
-
+  // TODO(HiDeoo) Move loading UI to header ?
   // TODO(HiDeoo) Loading UI
   return (
     <>
-      {isReady ? (
-        <div>
-          <p>Version: {config.version}</p>
-        </div>
-      ) : (
-        <div>Loading…</div>
-      )}
-      <div ref={editor} id="editor" style={{ height: 400 }} />
+      {isSandboxReady ? null : <div>Loading…</div>}
+      {isSandboxReady && config ? (
+        <Header
+          isEditable={isEditable}
+          onVersionChange={handleVersionChange}
+          saveConfig={saveConfig}
+          version={config.version}
+        />
+      ) : null}
+      {config ? (
+        <Sandbox
+          content={content}
+          extension={extension}
+          key={config.version.current}
+          onReady={onSandBoxReady}
+          version={config.version.current}
+        />
+      ) : null}
     </>
   )
 }
 
 interface PlaygroundProps {
   content: string
-  extension: 'js' | 'ts'
+  isEditable: FileBlockProps['isEditable']
   metadata: FileBlockProps['metadata']
+  path: string
+  updateMetadata: FileBlockProps['onUpdateMetadata']
 }

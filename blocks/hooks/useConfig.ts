@@ -1,12 +1,15 @@
 import { type FileBlockProps } from '@githubnext/blocks'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useErrorHandler } from 'react-error-boundary'
 
 import { getConfigFromMetadata, type Config } from '../libs/config'
 
-export function useConfig(metadata: FileBlockProps['metadata']) {
+export function useConfig(
+  metadata: FileBlockProps['metadata'],
+  updateMetadata: FileBlockProps['onUpdateMetadata']
+): UseConfigReturnValue {
   const handleError = useErrorHandler()
-  const [config, setConfig] = useState<Config | undefined>(undefined)
+  const [config, setConfig] = useState<MaybeConfig>(undefined)
 
   useEffect(() => {
     let ignoreConfig = false
@@ -26,5 +29,21 @@ export function useConfig(metadata: FileBlockProps['metadata']) {
     }
   }, [handleError, metadata])
 
-  return config
+  const saveConfig = useCallback(() => {
+    updateMetadata({ version: config?.version.current })
+  }, [config, updateMetadata])
+
+  const updateConfig = useCallback((updater: (prevState: MaybeConfig) => MaybeConfig) => {
+    setConfig(updater)
+  }, [])
+
+  return { config, saveConfig, updateConfig }
+}
+
+type MaybeConfig = Config | undefined
+
+export interface UseConfigReturnValue {
+  config: MaybeConfig
+  saveConfig: () => void
+  updateConfig: (updater: (prevState: MaybeConfig) => MaybeConfig) => void
 }
