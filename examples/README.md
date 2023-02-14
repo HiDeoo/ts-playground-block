@@ -4,7 +4,7 @@
 
 ## Markdown
 
-This is a simple example of the TS Playground GitHub Block embedded in Markwdown.
+This is a simple example of the TS Playground GitHub Block embedded in Markdown.
 
 <BlockComponent
 block={{"owner":"hideoo","repo":"ts-playground-block","id":"ts-playground-block","type":"file"}}
