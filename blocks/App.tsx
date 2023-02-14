@@ -1,6 +1,5 @@
 import { type FileBlockProps } from '@githubnext/blocks'
-import BaseStyles from '@primer/react/lib/BaseStyles'
-import { ThemeProvider } from '@primer/react/lib/ThemeProvider'
+import { BaseStyles, ThemeProvider } from '@primer/react'
 
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Playground } from './components/Playground'
