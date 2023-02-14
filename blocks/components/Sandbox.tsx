@@ -40,7 +40,7 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
             return
           }
 
-          sandboxFactory.createTypeScriptSandbox(
+          const sandbox = sandboxFactory.createTypeScriptSandbox(
             {
               acquireTypes: true,
               compilerOptions: {},
@@ -52,6 +52,8 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
             main,
             window.ts
           )
+
+          sandbox.editor.updateOptions({ readOnly: true })
 
           onReady()
 
