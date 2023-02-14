@@ -69,7 +69,7 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
     }
   }, [content, extension, handleError, onReady, version])
 
-  return <div ref={editor} id="editor" style={{ height: 400 }} />
+  return <div ref={editor} id="editor" className="editor" />
 }
 
 interface SandboxProps {

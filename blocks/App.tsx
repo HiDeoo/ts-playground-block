@@ -5,11 +5,13 @@ import { ThemeProvider } from '@primer/react/lib-esm/ThemeProvider'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Playground } from './components/Playground'
 
+import './styles/app.css'
+
 export default function App({ content, context, isEditable, metadata, onUpdateMetadata }: FileBlockProps) {
   return (
     <ErrorBoundary>
       <ThemeProvider>
-        <BaseStyles>
+        <BaseStyles className="base">
           <Playground
             content={content}
             isEditable={isEditable}
