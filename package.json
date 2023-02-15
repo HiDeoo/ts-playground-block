@@ -2,7 +2,7 @@
   "name": "ts-playground-block",
   "version": "0.0.9",
   "license": "MIT",
-  "description": "",
+  "description": "GitHub Block to embed a TypeScript Playground in Markdown files or as a custom file renderer in GitHub.",
   "author": "HiDeoo <github@hideoo.dev> (https://hideoo.dev)",
   "type": "module",
   "scripts": {
@@ -41,7 +41,14 @@
   "packageManager": "pnpm@7.27.0",
   "private": true,
   "sideEffects": false,
-  "keywords": [],
+  "keywords": [
+    "github-blocks",
+    "github",
+    "blocks",
+    "typescript",
+    "playground",
+    "javascript"
+  ],
   "homepage": "https://github.com/HiDeoo/ts-playground-block",
   "repository": {
     "type": "git",
