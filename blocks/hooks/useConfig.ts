@@ -40,7 +40,7 @@ export function useConfig(
   return { config, saveConfig, updateConfig }
 }
 
-type MaybeConfig = Config | undefined
+export type MaybeConfig = Config | undefined
 
 export interface UseConfigReturnValue {
   config: MaybeConfig

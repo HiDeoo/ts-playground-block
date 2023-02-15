@@ -4,7 +4,7 @@ import { BaseStyles, ThemeProvider } from '@primer/react'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { Playground } from './components/Playground'
 
-import './styles/app.css'
+import './styles/global.css'
 
 export default function App({ content, context, isEditable, metadata, onUpdateMetadata }: FileBlockProps) {
   return (

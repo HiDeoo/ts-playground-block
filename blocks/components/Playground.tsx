@@ -37,19 +37,15 @@ export function Playground({ content, isEditable, metadata, path, updateMetadata
     [updateConfig]
   )
 
-  // TODO(HiDeoo) Move loading UI to header ?
-  // TODO(HiDeoo) Loading UI
   return (
     <>
-      {isSandboxReady ? null : <div>Loading…</div>}
-      {isSandboxReady && config ? (
-        <Header
-          isEditable={isEditable}
-          onVersionChange={handleVersionChange}
-          saveConfig={saveConfig}
-          version={config.version}
-        />
-      ) : null}
+      <Header
+        config={config}
+        isEditable={isEditable}
+        isSandboxReady={isSandboxReady}
+        onVersionChange={handleVersionChange}
+        saveConfig={saveConfig}
+      />
       {config ? (
         <Sandbox
           content={content}
