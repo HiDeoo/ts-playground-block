@@ -3,6 +3,7 @@ import { useErrorHandler } from 'react-error-boundary'
 
 export function Sandbox({ content, extension, onReady, version }: SandboxProps) {
   const editor = useRef<HTMLDivElement>(null)
+  const sandbox = useRef<TSSandbox | undefined>(undefined)
   const handleError = useErrorHandler()
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
             return
           }
 
-          const sandbox = sandboxFactory.createTypeScriptSandbox(
+          sandbox.current = sandboxFactory.createTypeScriptSandbox(
             {
               acquireTypes: true,
               compilerOptions: {},
@@ -53,7 +54,7 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
             window.ts
           )
 
-          sandbox.editor.updateOptions({ readOnly: true })
+          sandbox.current.editor.updateOptions({ readOnly: true })
 
           onReady()
         }
@@ -67,6 +68,22 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
     }
   }, [content, extension, handleError, onReady, version])
 
+  useEffect(() => {
+    if (!sandbox.current) {
+      return
+    }
+
+    function handleResize() {
+      sandbox.current?.editor.layout()
+    }
+
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
+
   return <div ref={editor} id="editor" className="editor" />
 }
 
@@ -76,3 +93,5 @@ interface SandboxProps {
   onReady: () => void
   version: string
 }
+
+type TSSandbox = ReturnType<typeof import('@typescript/sandbox').createTypeScriptSandbox>
