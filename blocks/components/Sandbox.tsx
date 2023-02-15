@@ -66,7 +66,10 @@ export const Sandbox = forwardRef<SandboxHandle, SandboxProps>(function Sandbox(
             window.ts
           )
 
-          sandbox.current.editor.updateOptions({ readOnly: true })
+          sandbox.current.editor.updateOptions({
+            readOnly: true,
+            renderValidationDecorations: 'on',
+          })
 
           if (tsVersionSupportsInlayHints(sandbox.current.ts.version)) {
             monaco.languages.registerInlayHintsProvider(
