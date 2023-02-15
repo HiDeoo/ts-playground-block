@@ -1,5 +1,8 @@
 let tsReleases: TSReleases | undefined
 
+// https://github.com/microsoft/TypeScript-Website/blob/4a670b334df7be35c480f640009ce698a7bab02b/packages/playground/src/index.ts#LL295C3-L295C79
+const unsupportedTsVersions = new Set(['3.1.6', '3.0.1', '2.8.1', '2.7.2', '2.4.1'])
+
 export async function getTSVersion(preferredVersion?: string): Promise<TSVersion> {
   const { versions } = await getTSReleases()
 
@@ -30,11 +33,15 @@ async function getTSReleases() {
     }
 
     return {
-      versions: [...tsReleases.versions.reverse()],
+      versions: filterUnsupportedTSVersions([...tsReleases.versions.reverse()]),
     }
   } catch (error) {
     throw new Error('Failed to fetch TypeScript releases.', { cause: error })
   }
+}
+
+function filterUnsupportedTSVersions(versions: TSReleases['versions']) {
+  return versions.filter((version) => !unsupportedTsVersions.has(version))
 }
 
 function isValidTSReleases(releases: unknown): releases is TSReleases {

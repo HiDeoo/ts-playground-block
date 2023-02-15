@@ -56,8 +56,6 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
           sandbox.editor.updateOptions({ readOnly: true })
 
           onReady()
-
-          // TODO(HiDeoo) setup sandbox
         }
       )
     })
