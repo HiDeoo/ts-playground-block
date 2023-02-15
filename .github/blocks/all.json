@@ -2,7 +2,7 @@
   "examples/basic.ts": {
     "default": "HiDeoo__ts-playground-block__ts-playground-block"
   },
-  "examples/metadata.ts": {
+  "examples/version.ts": {
     "default": "HiDeoo__ts-playground-block__ts-playground-block"
   }
 }

@@ -51,6 +51,6 @@
   "prettier": "@hideoo/prettier-config",
   "lint-staged": {
     "**/*": "prettier -w -u --cache",
-    "**/*.{js,jsx,ts,tsx,cjs,mjs}": "eslint --cache --max-warnings=0"
+    "**/!(examples)/*.{js,jsx,ts,tsx,cjs,mjs}": "eslint --cache --max-warnings=0"
   }
 }
