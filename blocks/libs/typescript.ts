@@ -30,6 +30,10 @@ export function tsVersionSupportsInlayHints(version: string) {
   )
 }
 
+export function getTSPlaygroundUrlFromSandbox(sandbox: TSSandbox) {
+  return `https://www.typescriptlang.org/play?${sandbox.createURLQueryWithCompilerOptions(sandbox)}`
+}
+
 async function getTSReleases() {
   if (tsReleases) {
     return tsReleases

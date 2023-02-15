@@ -1,12 +1,14 @@
 import { type FileBlockProps, getLanguageFromFilename } from '@githubnext/blocks'
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 import { useConfig } from '../hooks/useConfig'
+import { getTSPlaygroundUrlFromSandbox } from '../libs/typescript'
 
 import { Header } from './Header'
-import { Sandbox } from './Sandbox'
+import { Sandbox, type SandboxHandle } from './Sandbox'
 
 export function Playground({ content, isEditable, metadata, path, updateMetadata }: PlaygroundProps) {
+  const sandboxHandle = useRef<SandboxHandle>(null)
   const [isSandboxReady, setIsSandboxReady] = useState(false)
 
   const { config, saveConfig, updateConfig } = useConfig(metadata, updateMetadata)
@@ -37,12 +39,23 @@ export function Playground({ content, isEditable, metadata, path, updateMetadata
     [updateConfig]
   )
 
+  const handleOpenInPlayground = useCallback(() => {
+    const sandbox = sandboxHandle.current?.getSandbox()
+
+    if (!sandbox) {
+      return
+    }
+
+    window.open(getTSPlaygroundUrlFromSandbox(sandbox), '_blank')
+  }, [])
+
   return (
     <>
       <Header
         config={config}
         isEditable={isEditable}
         isSandboxReady={isSandboxReady}
+        onOpenInPlayground={handleOpenInPlayground}
         onVersionChange={handleVersionChange}
         saveConfig={saveConfig}
       />
@@ -52,6 +65,7 @@ export function Playground({ content, isEditable, metadata, path, updateMetadata
           extension={extension}
           key={config.version.current}
           onReady={onSandBoxReady}
+          ref={sandboxHandle}
           version={config.version.current}
         />
       ) : null}

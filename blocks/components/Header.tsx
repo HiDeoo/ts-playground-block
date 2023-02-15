@@ -1,12 +1,19 @@
 import { type FileBlockProps } from '@githubnext/blocks'
-import { ZapIcon } from '@primer/octicons-react'
-import { Box, Button, Select } from '@primer/react'
+import { LinkExternalIcon, ZapIcon } from '@primer/octicons-react'
+import { Box, Button, IconButton, Select, Tooltip } from '@primer/react'
 
 import { type MaybeConfig, type UseConfigReturnValue } from '../hooks/useConfig'
 
 import { Loader } from './Loader'
 
-export function Header({ isEditable, isSandboxReady, onVersionChange, saveConfig, config }: HeaderProps) {
+export function Header({
+  isEditable,
+  isSandboxReady,
+  onOpenInPlayground,
+  onVersionChange,
+  saveConfig,
+  config,
+}: HeaderProps) {
   function handleVersionChange(event: React.ChangeEvent<HTMLSelectElement>) {
     onVersionChange(event.target.value)
   }
@@ -46,6 +53,13 @@ export function Header({ isEditable, isSandboxReady, onVersionChange, saveConfig
           ) : null}
         </>
       ) : null}
+      <Tooltip aria-label="Open in the official TS Playground" direction="w">
+        <IconButton
+          aria-label="Open in the official TS Playground"
+          icon={LinkExternalIcon}
+          onClick={onOpenInPlayground}
+        />
+      </Tooltip>
     </Box>
   )
 }
@@ -54,6 +68,7 @@ interface HeaderProps {
   config: MaybeConfig
   isEditable: FileBlockProps['isEditable']
   isSandboxReady: boolean
+  onOpenInPlayground: () => void
   onVersionChange: (version: string) => void
   saveConfig: UseConfigReturnValue['saveConfig']
 }

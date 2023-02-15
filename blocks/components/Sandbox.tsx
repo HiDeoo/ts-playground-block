@@ -1,10 +1,15 @@
-import { useEffect, useRef } from 'react'
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { useErrorHandler } from 'react-error-boundary'
 
 import { createTwoslashInlayProvider } from '../libs/monaco'
 import { tsVersionSupportsInlayHints, type TSSandbox } from '../libs/typescript'
 
-export function Sandbox({ content, extension, onReady, version }: SandboxProps) {
+export const Sandbox = forwardRef<SandboxHandle, SandboxProps>(function Sandbox(
+  { content, extension, onReady, version }: SandboxProps,
+  forwardedRef
+) {
+  useImperativeHandle(forwardedRef, () => ({ getSandbox }))
+
   const editor = useRef<HTMLDivElement>(null)
   const sandbox = useRef<TSSandbox | undefined>(undefined)
   const handleError = useErrorHandler()
@@ -94,12 +99,20 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
     }
   }, [])
 
+  function getSandbox() {
+    return sandbox.current
+  }
+
   return <div ref={editor} id="editor" className="editor" />
-}
+})
 
 interface SandboxProps {
   content: string
   extension: 'js' | 'ts'
   onReady: () => void
   version: string
+}
+
+export interface SandboxHandle {
+  getSandbox: () => TSSandbox | undefined
 }
