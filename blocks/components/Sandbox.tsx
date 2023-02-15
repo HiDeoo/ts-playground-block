@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useErrorHandler } from 'react-error-boundary'
 
+import { createTwoslashInlayProvider } from '../libs/monaco'
+import { tsVersionSupportsInlayHints, type TSSandbox } from '../libs/typescript'
+
 export function Sandbox({ content, extension, onReady, version }: SandboxProps) {
   const editor = useRef<HTMLDivElement>(null)
   const sandbox = useRef<TSSandbox | undefined>(undefined)
@@ -30,13 +33,17 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
       window.require(
         ['vs/editor/editor.main', 'vs/language/typescript/tsWorker', 'sandbox/index'],
         (
-          main: typeof import('monaco-editor') | undefined,
+          monaco: typeof import('monaco-editor') | undefined,
           _tsWorker: typeof import('@typescript/sandbox/dist/tsWorker').TypeScriptWorker | undefined,
           sandboxFactory: typeof import('@typescript/sandbox') | undefined
         ) => {
           // Importing `vs/language/typescript/tsWorker` will set `ts` as a global.
-          if (!main || !window.ts || !sandboxFactory) {
-            console.error('Failed to load a Playground dependency:', { main, ts: window.ts, sandbox: sandboxFactory })
+          if (!monaco || !window.ts || !sandboxFactory) {
+            console.error('Failed to load a Playground dependency:', {
+              main: monaco,
+              ts: window.ts,
+              sandbox: sandboxFactory,
+            })
             handleError(new Error('Failed to load the Playground, check the console for more details.'))
             return
           }
@@ -50,11 +57,18 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
               supportTwoslashCompilerOptions: true,
               text: content,
             },
-            main,
+            monaco,
             window.ts
           )
 
           sandbox.current.editor.updateOptions({ readOnly: true })
+
+          if (tsVersionSupportsInlayHints(sandbox.current.ts.version)) {
+            monaco.languages.registerInlayHintsProvider(
+              sandbox.current.language,
+              createTwoslashInlayProvider(sandbox.current)
+            )
+          }
 
           onReady()
         }
@@ -93,5 +107,3 @@ interface SandboxProps {
   onReady: () => void
   version: string
 }
-
-type TSSandbox = ReturnType<typeof import('@typescript/sandbox').createTypeScriptSandbox>

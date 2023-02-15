@@ -1,3 +1,5 @@
+import { type createTypeScriptSandbox } from '@typescript/sandbox'
+
 let tsReleases: TSReleases | undefined
 
 // https://github.com/microsoft/TypeScript-Website/blob/4a670b334df7be35c480f640009ce698a7bab02b/packages/playground/src/index.ts#LL295C3-L295C79
@@ -17,6 +19,15 @@ export async function getTSVersion(preferredVersion?: string): Promise<TSVersion
   }
 
   throw new Error('Failed to get latest TypeScript version.')
+}
+
+export function tsVersionSupportsInlayHints(version: string) {
+  const [tsMajor, tsMinor] = version.split('.')
+
+  return (
+    (tsMajor && Number.parseInt(tsMajor) > 4) ||
+    (tsMajor && tsMinor && Number.parseInt(tsMajor) === 4 && Number.parseInt(tsMinor) >= 6)
+  )
 }
 
 async function getTSReleases() {
@@ -47,6 +58,8 @@ function filterUnsupportedTSVersions(versions: TSReleases['versions']) {
 function isValidTSReleases(releases: unknown): releases is TSReleases {
   return releases !== undefined && typeof releases === 'object' && Array.isArray((releases as TSReleases).versions)
 }
+
+export type TSSandbox = ReturnType<typeof createTypeScriptSandbox>
 
 export interface TSVersion {
   available: string[]
