@@ -5,7 +5,7 @@ export interface Example {
 
 const example: Example = {
   name: 'Basic',
-  description: 'A basic example of the Playground with Twoslash support.',
+  description: 'A basic example of the Playground with a Twoslash annotation.',
 }
 
 example
