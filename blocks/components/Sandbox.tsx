@@ -83,10 +83,6 @@ export function Sandbox({ content, extension, onReady, version }: SandboxProps) 
   }, [content, extension, handleError, onReady, version])
 
   useEffect(() => {
-    if (!sandbox.current) {
-      return
-    }
-
     function handleResize() {
       sandbox.current?.editor.layout()
     }
