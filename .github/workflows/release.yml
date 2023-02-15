@@ -6,16 +6,14 @@ on:
       - 'v*.*.*'
 
 jobs:
-  # FIXME
-  # integration:
-  #   name: Integration
-  #   uses: ./.github/workflows/integration.yml
+  integration:
+    name: Integration
+    uses: ./.github/workflows/integration.yml
 
   publish:
     name: Publish
-    # FIXME
-    # needs:
-    #   - integration
+    needs:
+      - integration
     runs-on: ubuntu-latest
     permissions:
       contents: write
