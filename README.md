@@ -22,16 +22,16 @@ A [GitHub Block](https://blocks.githubnext.com) to embed a [TypeScript Playgroun
 - Support for [TypeScript Twoslash](https://www.typescriptlang.org/dev/twoslash) annotations
 - Link to open the code in the [official TypeScript Playground](https://www.typescriptlang.org/play)
 
-> **Note**
+> **Warning**
 >
 > GitHub Blocks is currently an experimental technical preview. It is not available to all GitHub users and may change at any time.
 
 ## Planned Features
 
-GitHub Blocks is still in early development and same goes for this GitHub Block. The following features are planned:
+GitHub Blocks is still in **early development** and same goes for this GitHub Block. The following features are planned:
 
 - TS Config customization just like the official TypeScript Playground.
-- Dark mode (the GitHub Blocks UI does not yet support a dark mode).
+- Theme support (the GitHub Blocks UI does not yet support themes).
 
 ## Limitations
 
