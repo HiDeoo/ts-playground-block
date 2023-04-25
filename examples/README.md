@@ -1,9 +1,5 @@
 # Examples
 
-> **Note**
->
-> The examples below require a GitHub account with access to the [GitHub Blocks](https://blocks.githubnext.com/) technical preview. If you don't have access, you can check out [some screenshots](/README.md#examples).
-
 ## File Renderer
 
 The following examples use the TS Playground GitHub Block as a file renderer on GitHub:

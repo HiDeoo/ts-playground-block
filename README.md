@@ -24,7 +24,7 @@ A [GitHub Block](https://blocks.githubnext.com) to embed a [TypeScript Playgroun
 
 > **Warning**
 >
-> GitHub Blocks is currently an experimental technical preview. It is not available to all GitHub users and may change at any time.
+> GitHub Blocks is currently an experimental technical preview and may change at any time.
 
 ## Planned Features
 
@@ -38,10 +38,6 @@ GitHub Blocks is still in **early development** and same goes for this GitHub Bl
 It is currently not possible to customize the options, e.g. the TypeScript version, of the TypeScript Playground GitHub Block directly from Markdown but some sort of "instance" state allowing this kind of customization is on the roadmap.
 
 ## Examples
-
-> **Note**
->
-> The examples below require a GitHub account with access to the GitHub Blocks technical preview. Some screenshots are provided as an alternative.
 
 - [Embedded in a README file.](https://blocks.githubnext.com/HiDeoo/ts-playground-block/blob/main/examples/README.md)
 - [As a file renderer for a TypeScript file.](https://blocks.githubnext.com/HiDeoo/ts-playground-block/blob/main/examples/basic.ts)
